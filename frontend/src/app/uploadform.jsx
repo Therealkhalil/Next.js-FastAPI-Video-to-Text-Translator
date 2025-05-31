@@ -38,7 +38,7 @@ export default function UploadForm() {
     fileInputRef.current?.click();
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!selectedFile) {
@@ -51,18 +51,39 @@ export default function UploadForm() {
       return;
     }
 
-    console.log("Submitting form...");
-    console.log("Selected File:", selectedFile.name);
-    console.log("Selected Option:", selectedOption);
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.append("option", selectedOption);
 
-    // Navigate to the Result page with query params
-    router.push(
-      `/Result?filename=${encodeURIComponent(
-        selectedFile.name
-      )}&option=${selectedOption}&message=${encodeURIComponent(
-        "Submitted successfully!"
-      )}`
-    );
+    try {
+      const response = await fetch("http://127.0.0.1:8000/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Response from backend:", data);
+
+        // Navigate to the Result page with query params
+        router.push(
+          `/Result?filename=${encodeURIComponent(
+            selectedFile.name
+          )}&option=${selectedOption}&message=${encodeURIComponent(
+            "Submitted successfully!"
+          )}`
+        );
+      } else {
+        const errorData = await response.json();
+        console.error("Backend error:", errorData);
+        alert(`Failed to upload file: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error("Error during file upload:", error);
+      alert(
+        "An unexpected error occurred. Please check your network connection and try again."
+      );
+    }
   };
 
   return (
@@ -81,7 +102,7 @@ export default function UploadForm() {
 
         {/* Simplified CardContent equivalent */}
         <div>
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} method="POST" className="space-y-6">
             {/* File Upload Section */}
             <div>
               <label
@@ -141,15 +162,6 @@ export default function UploadForm() {
             <button
               type="submit"
               className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
-              onClick={() =>
-                router.push(
-                  `/Result?filename=${encodeURIComponent(
-                    selectedFile.name
-                  )}&option=${selectedOption}&message=${encodeURIComponent(
-                    "Submitted successfully!"
-                  )}`
-                )
-              } // Navigate to the about page on click
             >
               Submit
             </button>
