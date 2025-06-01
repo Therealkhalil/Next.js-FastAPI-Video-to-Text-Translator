@@ -14,6 +14,7 @@
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
+- [Docker Setup](#docker-setup)
 
 ## Features
 
@@ -68,7 +69,7 @@ Before you begin, ensure you have the following installed:
 1.  **Clone the repository:**
 
     ```bash
-    git clone [https://github.com/Therealkhalil/Next.js-FastAPI-Video-to-Text-Translator.git](https://github.com/Therealkhalil/Next.js-FastAPI-Video-to-Text-Translator.git)
+    git clone [https://github.com/Therealkhalil/Next.js-FastAPI-Video-to-Text-Translator.git](https://www.github.com/Therealkhalil/Next.js-FastAPI-Video-to-Text-Translator.git)
     cd Next.js-FastAPI-Video-to-Text-Translator
     ```
 
@@ -177,5 +178,45 @@ Before you begin, ensure you have the following installed:
       "detail": "Could not upload file: [error details]"
     }
     ```
+
+## Docker Setup
+
+To run the project using Docker, follow these steps:
+
+1. **Install Docker:**
+   Ensure Docker is installed on your system. You can download it from [docker.com](https://www.docker.com/).
+
+2. **Build Docker Images:**
+   Navigate to the project root directory and build the Docker images for both the backend and frontend.
+
+   ```bash
+   docker-compose build
+   ```
+
+3. **Run Docker Containers:**
+   Start the containers using Docker Compose.
+
+   ```bash
+   docker-compose up
+   ```
+
+4. **Access the Application:**
+
+   - Backend: `http://localhost:8000`
+   - Frontend: `http://localhost:3000`
+
+5. **Stop Containers:**
+   To stop the containers, press `Ctrl+C` in the terminal or run:
+
+   ```bash
+   docker-compose down
+   ```
+
+6. **Optional: Clean Up Docker Resources:**
+   Remove unused Docker images and containers to free up space.
+
+   ```bash
+   docker system prune -a
+   ```
 
 - **GitHub:** [Therealkhalil](https://github.com/Therealkhalil)
