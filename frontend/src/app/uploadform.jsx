@@ -71,7 +71,7 @@ export default function UploadForm() {
             selectedFile.name
           )}&option=${selectedOption}&message=${encodeURIComponent(
             "Submitted successfully!"
-          )}`
+          )}&transcription=${encodeURIComponent(data.transcription)}`
         );
       } else {
         const errorData = await response.json();

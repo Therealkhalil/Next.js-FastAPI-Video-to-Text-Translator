@@ -70,8 +70,12 @@ async def upload_file(file: UploadFile = File(...), option: str = Form(...)):
         # Translate the transcription
         print("Translating transcription...")
         translator = Translator(to_lang=option)
-        translation = translator.translate(transcription)
-        print(f"Translation: {translation}")
+        try:
+            translation = translator.translate(transcription)
+            print(f"Translation: {translation}")
+        except Exception as te:
+            print(f"Translation error: {te}")
+            translation = "Translation failed due to an internal error."
 
         # Clean up temporary files
         os.remove(temp_file_path)
