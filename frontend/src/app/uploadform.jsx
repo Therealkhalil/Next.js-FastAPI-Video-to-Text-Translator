@@ -8,6 +8,7 @@ export default function UploadForm() {
   const router = useRouter();
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedOption, setSelectedOption] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false); // State for spinner
   const fileInputRef = useRef(null);
 
   const handleFileChange = (event) => {
@@ -51,6 +52,8 @@ export default function UploadForm() {
       return;
     }
 
+    setIsSubmitting(true); // Show spinner
+
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("option", selectedOption);
@@ -83,6 +86,8 @@ export default function UploadForm() {
       alert(
         "An unexpected error occurred. Please check your network connection and try again."
       );
+    } finally {
+      setIsSubmitting(false); // Hide spinner
     }
   };
 
@@ -158,12 +163,35 @@ export default function UploadForm() {
               </select>
             </div>
 
-            {/* Simplified Button equivalent */}
+            {/* Submit Button with Spinner */}
             <button
               type="submit"
-              className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+              className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 flex items-center justify-center"
+              disabled={isSubmitting} // Disable button while submitting
             >
-              Submit
+              {isSubmitting ? (
+                <svg
+                  className="animate-spin h-5 w-5 text-white mr-2"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                  ></path>
+                </svg>
+              ) : null}
+              {isSubmitting ? "Generating..." : "Submit"}
             </button>
           </form>
         </div>
