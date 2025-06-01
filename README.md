@@ -1,4 +1,5 @@
 # Next.js-FastAPI-Video-to-Text-Translator
+![website](https://github.com/user-attachments/assets/283ddf54-93c9-4db6-bcaa-6bc966da99c6)
 
 ## Table of Contents
 
